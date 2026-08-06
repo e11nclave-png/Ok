@@ -1646,6 +1646,25 @@ document.addEventListener('click', function(e) {
     modal.style.display = 'none'; document.body.style.overflow = '';
   }
 });
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-testid="add-card-and-pay-now-button"]');
+  if (!btn) return;
+  e.preventDefault();
+
+  var payModal = document.getElementById('pay-modal');
+  if (payModal) { payModal.style.display = 'none'; document.body.style.overflow = ''; }
+
+  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    var rm = document.getElementById('redeem-modal-mobile');
+    if (rm) { rm.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+  } else {
+    var rd = document.getElementById('redeem-modal');
+    if (rd) { rd.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+  }
+});
 </script>
 
 </body></html>
