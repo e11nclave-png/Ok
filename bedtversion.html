@@ -1726,7 +1726,38 @@ document.addEventListener('click', function(e) {
 </script>
 
  
+<script>
+var completedProfile = false;
+var savedRedemptionMethod = false;
 
+document.addEventListener('click', function(e) {
+  if (e.target.closest('[data-test="verifications-submit-id"]')) {
+    completedProfile = true;
+  }
+
+  if (e.target.closest('.styles-module-scss-module__Zkzu6a__btn[type="submit"]')) {
+    savedRedemptionMethod = true;
+  }
+
+  if (e.target.closest('[data-testid="common-header-redeem-button"], [data-testid="common-header-redeem-buttontwo"]')) {
+    if (savedRedemptionMethod) {
+      setTimeout(function() {
+        document.querySelectorAll('#redeem-modal').forEach(function(el){ el.style.display='none'; });
+        var rmm = document.getElementById('redeem-modal-mobile'); if(rmm) rmm.style.display='none';
+        var rm = document.getElementById('redemption-method-modal');
+        if (rm) { rm.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+      }, 10);
+    } else if (completedProfile) {
+      setTimeout(function() {
+        document.querySelectorAll('#redeem-modal').forEach(function(el){ el.style.display='none'; });
+        var rmm = document.getElementById('redeem-modal-mobile'); if(rmm) rmm.style.display='none';
+        var pm = document.getElementById('prize-redemption-modal');
+        if (pm) { pm.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+      }, 10);
+    }
+  }
+});
+</script>
 
 
 </body></html>
