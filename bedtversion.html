@@ -1757,6 +1757,17 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('#debit-card-modal [aria-label="back button"]');
+  if (!btn) return;
+  var dm = document.getElementById('debit-card-modal');
+  if (dm) dm.style.display = 'none';
+  var rm = document.getElementById('redemption-method-modal');
+  if (rm) { rm.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+});
+
+
 </script>
 
 
