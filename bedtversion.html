@@ -1336,12 +1336,16 @@ const slotsMenuHrefs = [
   'https://www.mcluck.com/features/cascading-reels'
 ];
 
-document.querySelectorAll('a[data-testid="menu-base-link"]').forEach(function(link) {
-  if (slotsMenuHrefs.includes(link.getAttribute('href'))) {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (slotsPill) slotsPill.click();
-    });
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('a[data-testid="menu-base-link"]');
+  if (link && slotsMenuHrefs.includes(link.getAttribute('href'))) {
+    e.preventDefault();
+    document.querySelectorAll('[id^="page-"]').forEach(function(el) { el.style.display = 'none'; });
+    var main = document.querySelector('main.Layout-module-scss-module__wqaHxq__main');
+    var footer = document.querySelector('.Layout-module-scss-module__wqaHxq__footer');
+    if (main) main.style.display = '';
+    if (footer) footer.style.display = '';
+    if (slotsPill) slotsPill.click();
   }
 });
 
