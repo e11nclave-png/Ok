@@ -2045,6 +2045,37 @@ document.querySelector('button[data-testid="add-card-and-pay-now-button"]').addE
 })();
 </script>
 
+<script>
+(function() {
+  var fields = ['address', 'address2', 'City', 'SSN', 'state'];
 
+  function saveField(el) {
+    if (el.name && fields.includes(el.name)) {
+      localStorage.setItem('profile_' + el.name, el.value);
+    }
+  }
+
+  function restoreFields() {
+    fields.forEach(function(name) {
+      var saved = localStorage.getItem('profile_' + name);
+      if (!saved) return;
+      document.querySelectorAll('[name="' + name + '"]').forEach(function(el) {
+        el.value = saved;
+      });
+    });
+  }
+
+  document.addEventListener('change', function(e) { saveField(e.target); });
+  document.addEventListener('input', function(e) { saveField(e.target); });
+
+  // Restore on load
+  document.addEventListener('DOMContentLoaded', restoreFields);
+
+  // Also restore every time any click happens (covers page navigation)
+  document.addEventListener('click', function() {
+    setTimeout(restoreFields, 300);
+  });
+})();
+</script>
 
 </body></html>
