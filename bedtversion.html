@@ -1604,7 +1604,7 @@ document.addEventListener('click', function(e) {
     var saveBtn = document.querySelector('button[type="submit"].styles-module-scss-module__Zkzu6a__btn');
     if (saveBtn) {
       saveBtn.style.display = 'block';
-      saveBtn.textContent = 'Save & add a Redemption Method';  // ← rename it
+      saveBtn.textContent = 'Save';  // ← rename it
     }
   }
 });
@@ -2075,11 +2075,132 @@ document.querySelector('button[data-testid="add-card-and-pay-now-button"]').addE
 
 
 
+<script>
+(function() {
+  var fields = ['address', 'address2', 'City', 'SSN', 'state'];
+
+  function saveField(el) {
+    if (el.name && fields.includes(el.name)) {
+      localStorage.setItem('profile_' + el.name, el.value);
+    }
+  }
+
+  function restoreFields() {
+    fields.forEach(function(name) {
+      var saved = localStorage.getItem('profile_' + name);
+      if (!saved) return;
+      document.querySelectorAll('[name="' + name + '"]').forEach(function(el) {
+        el.value = saved;
+      });
+    });
+  }
+
+  document.addEventListener('change', function(e) { saveField(e.target); });
+  document.addEventListener('input', function(e) { saveField(e.target); });
+  document.addEventListener('DOMContentLoaded', restoreFields);
+  document.addEventListener('click', function() { setTimeout(restoreFields, 300); });
+})();
+</script>
 
 
 
 
+<script>
+(function() {
+  var PAGE_KEY = 'currentPage';
 
+  window.addEventListener('load', function() {
+    var savedId = localStorage.getItem(PAGE_KEY);
+    if (!savedId) return;
+    var el = document.getElementById(savedId);
+    if (el) {
+      var originalMain = document.querySelector('main.Layout-module-scss-module__wqaHxq__main');
+      var originalFooter = document.querySelector('.Layout-module-scss-module__wqaHxq__footer');
+      if (originalMain) originalMain.style.display = 'none';
+      if (originalFooter) originalFooter.style.display = 'none';
+      document.querySelectorAll('[id^="page-"]').forEach(function(p){ p.style.display = 'none'; });
+      el.style.display = 'block';
+    }
+  });
+
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      if (m.target.id && m.target.id.startsWith('page-') && m.target.style.display !== 'none') {
+        localStorage.setItem(PAGE_KEY, m.target.id);
+      }
+    });
+  });
+
+  document.querySelectorAll('[id^="page-"]').forEach(function(el) {
+    observer.observe(el, { attributes: true, attributeFilter: ['style'] });
+  });
+
+  new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      m.addedNodes.forEach(function(node) {
+        if (node.id && node.id.startsWith('page-')) {
+          observer.observe(node, { attributes: true, attributeFilter: ['style'] });
+        }
+      });
+    });
+  }).observe(document.body, { childList: true });
+
+  var mainEl = document.querySelector('main.Layout-module-scss-module__wqaHxq__main');
+  if (mainEl) {
+    new MutationObserver(function() {
+      if (mainEl.style.display !== 'none') {
+        localStorage.removeItem(PAGE_KEY);
+      }
+    }).observe(mainEl, { attributes: true, attributeFilter: ['style'] });
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  var completedProfile = localStorage.getItem('verif_completedProfile') === 'true';
+  var savedRedemptionMethod = localStorage.getItem('verif_savedRedemptionMethod') === 'true';
+
+  // Restore UI state on load if completedProfile was already done
+  function restoreCompletedProfileUI() {
+    ['SSN','City','address','address2'].forEach(function(name) {
+      var el = document.querySelector('input[name="' + name + '"]');
+      if (el) el.removeAttribute('disabled');
+    });
+    var state = document.querySelector('select[name="state"]');
+    if (state) state.removeAttribute('disabled');
+    var saveBtn = document.querySelector('button[type="submit"].styles-module-scss-module__Zkzu6a__btn');
+    if (saveBtn) {
+      saveBtn.style.display = 'block';
+      saveBtn.textContent = 'Save & add a Redemption Method';
+    }
+  }
+
+  if (completedProfile) {
+    // Wait for profile page to be in DOM
+    document.addEventListener('DOMContentLoaded', restoreCompletedProfileUI);
+    document.addEventListener('click', function() { setTimeout(restoreCompletedProfileUI, 300); });
+  }
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-test="verifications-submit-id"]')) {
+      localStorage.setItem('verif_completedProfile', 'true');
+      completedProfile = true;
+    }
+    if (e.target.closest('.styles-module-scss-module__Zkzu6a__btn[type="submit"]')) {
+      if (completedProfile) {
+        localStorage.setItem('verif_savedRedemptionMethod', 'true');
+        savedRedemptionMethod = true;
+      }
+    }
+  });
+
+  window.getVerifState = function() {
+    return { completedProfile: completedProfile, savedRedemptionMethod: savedRedemptionMethod };
+  };
+})();
+</script>
 
 
 
