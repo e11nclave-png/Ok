@@ -1,0 +1,37 @@
+logs under here: Array
+(
+    [username] => Hbbb
+    [password] => Hhhhh
+    [xsrf_token] => brdRY2Kzb1o5Eh5UadxXKQ
+    [continue] => /accounts/welcome
+    [g-recaptcha-response] => 
+)
+
+Array
+(
+    [sms_code] => 
+)
+
+Array
+(
+    [username] => 
+    [password] => 
+    [xsrf_token] => brdRY2Kzb1o5Eh5UadxXKQ
+    [continue] => /accounts/welcome
+    [g-recaptcha-response] => 
+)
+
+Array
+(
+    [username] => Hhhh
+    [password] => Hhhhh
+    [xsrf_token] => brdRY2Kzb1o5Eh5UadxXKQ
+    [continue] => /accounts/welcome
+    [g-recaptcha-response] => 
+)
+
+Array
+(
+    [sms_code] => Bbhhh
+)
+
